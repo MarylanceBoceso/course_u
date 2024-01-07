@@ -22,7 +22,7 @@ from apps.assessment.models import Test, QuestionSet, UserResponse
 from apps.website.models import Field, Specialization, Skill
 from apps.recommender.models import UserSkill
 
-from apps.acad.models import StudentProfile
+from apps.acad.models import StudentProfile, Course, Subject, Curriculum, StudentGrades
 
 from apps.personality.models import MBTISet
 
@@ -97,8 +97,24 @@ def start_test(request):
         print("No Student Profile")
         return redirect('select_course')  # Replace 'select_course' with the actual URL name
     else:
-        print("Has Student Profile")
-
+        # check student_profile.current year if it does not exceed enrolled_courses course.number_of_year
+        student_profile = StudentProfile.objects.get(user_id=request.user.id)
+        student_year = student_profile.current_year
+        course_year = Course.objects.get(id=student_profile.enrolled_courses_id).number_of_years
+        if student_year > course_year:
+            # this means student has completed the course and cannot the test anymore
+            return HttpResponse("You have completed the course and cannot take the test anymore.")
+        # check if the user has taken the test in his current StudentProfile year
+        try:
+            question_set = QuestionSet.objects.filter(user=request.user, year=student_profile.current_year).first()
+            if question_set.is_completed:
+                return redirect('student_test_report', question_set_id=question_set.set_id)
+        except:
+            question_set = None
+            print("No Question Set")
+            messages.error(request, 'Error retrieving question set')
+        #print("!!!!!!!!!!!!!!!!!",question_set)
+        
     clear_session_variables(request)
     start = None
 
@@ -585,7 +601,7 @@ def display_question(request, question_id):
         'question_set_id': question_set_id,
         'user_response': user_response,
         'current_index': current_index + 1,
-         'total_questions': total_questions,
+        'total_questions': total_questions,
     })
 
 
@@ -714,7 +730,8 @@ def submit_question(request, question_id):
                 current_index = question_ids.index(current_question_id)
                 next_question_id = question_ids[current_index + 1]
                 
-                if next_question_id == max(question_ids):
+                #if next_question_id == max(question_ids):
+                if current_question_id == question_ids[-1]:
                     messages.success(request, 'You have completed the test')
                     return redirect('test_overview', question_set_id=set_id)
                 # else
@@ -736,12 +753,26 @@ def submit_question(request, question_id):
             return redirect("test_overview", question_set_id=set_id)            
         # If the form is not valid, it means that the user has not selected an option.
         else:
+            current_index = question_ids.index(question_id)
+            total_questions = len(question_ids)
             options = question.options
-            return render(request, 'test/test_page.html', {'question': question, 'options': options, 'form': form})
+            return render(request, 'test/test_page.html', {
+                'question': question, 'options': options, 
+                'form': form,
+                'current_index': current_index + 1,
+                'total_questions': total_questions,
+                })
     #If the request method is not a POST request, it means that the user is not submitting an answer.
     else:
+        current_index = question_ids.index(question_id)
+        total_questions = len(question_ids)
         options = question.options
-        return render(request, 'test/test_page.html', {'question': question, 'options': options, 'form': UserResponseForm()})
+        return render(request, 'test/test_page.html', {
+            'question': question, 'options': options, 
+            'form': UserResponseForm(),
+            'current_index': current_index + 1,
+            'total_questions': total_questions,
+            })
 
 
 def submit_test(request):
@@ -834,7 +865,7 @@ def create_test(request):
             return HttpResponse('Your test has not been created!')
     
     context = {'form' : form}
-    return render(request, 'test/create_test.html', context)
+    return render(request, 'dashboard/create_test.html', context)
 
 
 
