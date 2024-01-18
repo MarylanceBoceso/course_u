@@ -11,12 +11,12 @@
 
     <link rel="stylesheet" href="{% static 'css/base_home.css' %}">
 
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous"> -->
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    {% block css %}{% endblock css %}
 
 
 
@@ -25,13 +25,33 @@
 
 
     {% endblock head_extra %}
+    <style>
+        .message {
+            padding: 17px;
 
+            border-radius: 15px;
+            width: 350px;
+            margin: auto;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .success {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .error {
+            background-color: #f44336;
+            color: #fff;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container">
 
-        {% include 'navbar_2.html' %}
+        
 
         <!-- main -->
 
@@ -40,35 +60,111 @@
                 <div class="toggle">
                     <ion-icon name="menu-outline"></ion-icon>
                 </div>
-                <!-- header/Search -->
+                <div class="nav">
+                    <a href="{% url 'home' %}" class="brand">
+                        <span class="icon"><ion-icon name="school-outline"></ion-icon></span>
+                        <!-- <span class="title">Course-U<br><b class="subtitle">PUP Sta. Mesa</b></span> -->
+                        <div class="title-container">
+                            <span class="title">Course-U</span>
+                            <span class="subtitle">PUP Sta. Mesa</span>
+                        </div>
+                    </a>
+                    {% if user.is_authenticated %}
+                    {% if request.user.is_staff %}
+                    <a href="{% url 'admin_home' %}">
+                        <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+                        <span class="title"> Dashboard </span>
+                    </a>
+                    {% endif %}
+                    <a href="{% url 'test_home' %}">
+                        <span class="icon"><ion-icon name="reader-outline"></ion-icon></span>
+                        <span class="title"> Assessment </span>
+                    </a>
+                    <a href="{% url 'recommender' %}">
+                        <span class="icon"><ion-icon name="color-filter-outline"></ion-icon></ion-icon></span>
+                        <span class="title"> Recommender </span>
+                    </a>
+                    <!-- <a href="{% url 'test_home' %}">
+                        <span class="icon"><ion-icon name="reader-outline"></ion-icon></span>
+                        <span class="title"> Track </span>
+                    </a>
+                    <a href="{% url 'recommender_survey' %}">
+                        <span class="icon"><ion-icon name="color-filter-outline"></ion-icon></ion-icon></span>
+                        <span class="title"> Specialization </span>
+                    </a>
+                    <a href="{% url 'test_home' %}">
+                        <span class="icon"><ion-icon name="reader-outline"></ion-icon></span>
+                        <span class="title"> Jobs </span>
+                    </a> -->
+                    
+                    {% else %}
 
-                <!-- user -->
-                <div class="user">
-                    <p>Welcome, <a href="">username</a></p>
-                    <a href="">Logout</a>
+                    <a href="#">
+                        <span class="icon"></span><ion-icon name="log-in-outline"></ion-icon></span>
+                        <span class="title"> Login </span>
+                    </a>
+
+                    <a href="#">
+                        <span class="icon"><ion-icon name="person-add-outline"></ion-icon></span>
+                        <span class="title"> Signup </span>
+                    </a>
+
+                    {% endif %}
                 </div>
-                <div class="user_profile">
-                    <img src="" alt="User DP">
+                <!-- header/Search -->
+                {% if user.is_authenticated %}
+                <!-- user -->
+                <!-- <div class="user">
+                    <p>Welcome! {{ user.username }}.</p>
+                    
+                </div> -->
+                {% endif %}
+                <div class="profile">
+                    <p id="username">{{ user.username }}</p>
+                    <div class="user_profile">
+                        {% if profile_picture_url != None %}
+                        <img src="{{ profile_picture_url }}" alt="User DP">
+                        {% else %}
+                        <img src="{% static 'images/no-profile-pic.png' %}" alt="Dp">
+                        {% endif %}
+                    </div>
+                    <div id="dropdown" class="dropdown-menu">
+                        <ul>
+                            <!-- <li></li> -->
+                            <li><a href="{% url 'user_profile' %}">Profile</a></li>
+                            <li><a href="{% url 'settings' %}">Settings</a></li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </div>
+                    <!-- <div class="user_profile_info">
+                        <p id="username">{{ user.username }}</p>
+                        <p id="logout"><a href="{% url 'logout' %}">Logout</a></p>
+                    </div> -->
+                    <!-- <div class="dropdown">
+                        <button class="dropdown-button"><ion-icon name="chevron-down-outline"></ion-icon></button>
+                    </div> -->
                 </div>
             </div>
 
             <!-- content -->
             <div class="content">
 
-                {% if messages %}{% for message in messages %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {% if messages %}
+                {% for message in messages %}
+                <div class="message {% if message.tags == 'error' %}error{% elif message.tags == 'success' %}success{% endif %}"
+                    role="alert">
                     {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-                {% endfor %}{% endif %}
+                {% endfor %}
+                {% endif %}
 
 
                 {% if user.is_authenticated %}
-             
+
                 <!-- Block  Content -->
                 <!-- All contents will go here -->
                 {% block content %}{% endblock content %}
-               
+
                 {% else %}
                 <div class="col-md-6 offset-md-3">
                     <br><br><br>
@@ -91,6 +187,8 @@
 
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/7.0.0/mdb.min.js"></script>
     <script>
         // Menu Toggle
         let toggle = document.querySelector('.toggle');
@@ -104,19 +202,22 @@
 
         // add hovered class in selected list
         let list = document.querySelectorAll('.navigation li');
-        function activeLink(){
-            list.forEach((item) => 
-            item.classList.remove('hovered'));
+        function activeLink() {
+            list.forEach((item) =>
+                item.classList.remove('hovered'));
             this.classList.add('hovered');
         }
         list.forEach((item) =>
-        item.addEventListener('mouseover', activeLink));
+            item.addEventListener('mouseover', activeLink));
     </script>
     <script>
-        window.setTimeout(function () {
-            $(".alert").fadeTo(500, 0).slideUp(500, function () {
-                $(this).remove();
-            });
-        }, 5000);
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                var messages = document.querySelectorAll('.message');
+                messages.forEach(function (message) {
+                    message.style.display = 'none';
+                });
+            }, 3000);
+        });
     </script>
 </body>

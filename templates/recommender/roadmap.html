@@ -1,0 +1,369 @@
+{% extends 'base_user.html' %}
+
+
+
+{% block title %}Recommender{% endblock %}
+
+{% load static %}
+{% block head_extra %}
+<!-- <link rel="stylesheet" href="{% static 'css/recommender.css' %}"> -->
+<link rel="stylesheet" href="{% static 'css/roadmap.css' %}">
+{% endblock head_extra %}
+
+{% block content %}
+<div id="report">
+    <div class="roadmap-heading">
+        <h1>Your Recommendation Roadmap Progress</h1>
+        <h3>{{course_name}} (S.Y. 20XX - 20XX)</h3>
+    </div>
+    
+    <div class="map column">
+        <div class="student section">
+            <h2>Student Profile</h2>
+            <div class="row">
+                <div class="description">
+                    <h4>Course</h4>
+                    <p>{{course_name}}</p>
+                    <h4>School Year</h4>
+                    <p>20XX - 20XX</p>
+                </div>
+                <div class="image">
+                    <div class="user_profile">
+                        {% if profile_picture_url != None %}
+                        <img src="{{ profile_picture_url }}" alt="User DP">
+                        {% else %}
+                        <img src="{% static 'images/no-profile-pic.png' %}" alt="Dp">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Pre-Assessment</h2>
+            <div class="history row">
+                <div class="card">
+                    <h4>Record</h4>
+                    <p class="status-green">Student Porfile Creation</p>
+                </div>
+                <div class="card">
+                    <h4>Assessment</h4>
+                    {% if test_1_status %}
+                    <p>Your Test Result</p>
+                    <p>Score: {{test_results.0}}%</p>
+                    {% else %}
+                    <p>Have not yet taken the test.</p>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <h4>Recommendations</h4>
+                    <p>Top 1: {{top_1_recos.0}}</p>
+                    <p>Top 2: {{top_2_recos.0}}</p>
+                    <p>Top 3: {{top_3_recos.0}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>1st Year</h2>
+            <div class="history row">
+                <div class="card">
+                    <h4>Grade Input</h4>
+                    <span class="status-{{grade_2_status|yesno:'green,red'}}">
+                        {% if grade_2_status %}
+                        Grade Input Complete
+                        {% else %}
+                        Grade Input Missing
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Assessment</h4>
+                    {% if test_2_status %}
+                    <p>Your Test Result</p>
+                    <p>Score: {{test_results.1}}%</p>
+                    {% else %}
+                    <p>Have not yet taken the test.</p>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <h4>Recommendation Survey</h4>
+                    <span class="icon accuracy-{{survey_acc_1}}">
+                        {% if survey_acc_1 == '1' %}
+                        Not Accurate
+                        <ion-icon name="caret-down-outline"></ion-icon>
+                        {% elif survey_acc_1 == '2' %}
+                        Somewhat Accurate
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        {% elif survey_acc_1 == '3' %}
+                        Neutral
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% elif survey_acc_1 == '4' %}
+                        Accurate
+                        <ion-icon name="chevron-up-outline"></ion-icon>
+                        {% elif survey_acc_1 == '5' %}
+                        Very Accurate
+                        <ion-icon name="caret-up-outline"></ion-icon>
+                        {% else %}
+                        No Record
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Recommendations</h4>
+                    <p>Top 1: {{top_1_recos.1}}</p>
+                    <p>Top 2: {{top_2_recos.1}}</p>
+                    <p>Top 3: {{top_3_recos.1}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>2nd Year</h2>
+            <div class="history row">
+                <div class="card">
+                    <h4>Grade Input</h4>
+                    <span class="status-{{grade_2_status|yesno:'green,red'}}">
+                        {% if grade_2_status %}
+                        Grade Input Complete
+                        {% else %}
+                        Grade Input Missing
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Assessment</h4>
+                    {% if test_3_status %}
+                    <p>Your Test Result</p>
+                    <p>Score: {{test_results.2}}%</p>
+                    {% else %}
+                    <p>Have not yet taken the test.</p>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <h4>Recommendation Survey</h4>
+                    <span class="icon accuracy-{{survey_acc_2}}">
+                        {% if survey_acc_2 == '1' %}
+                        Not Accurate
+                        <ion-icon name="caret-down-outline"></ion-icon>
+                        {% elif survey_acc_2 == '2' %}
+                        Somewhat Accurate
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        {% elif survey_acc_2 == '3' %}
+                        Neutral
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% elif survey_acc_2 == '4' %}
+                        Accurate
+                        <ion-icon name="chevron-up-outline"></ion-icon>
+                        {% elif survey_acc_2 == '5' %}
+                        Very Accurate
+                        <ion-icon name="caret-up-outline"></ion-icon>
+                        {% else %}
+                        No Record
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Recommendations</h4>
+                    <p>Top 1: {{top_1_recos.2}}</p>
+                    <p>Top 2: {{top_2_recos.2}}</p>
+                    <p>Top 3: {{top_3_recos.2}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>3rd Year</h2>
+            <div class="history row">
+                <div class="card">
+                    <h4>Grade Input</h4>
+                    <span class="status-{{grade_2_status|yesno:'green,red'}}">
+                        {% if grade_2_status %}
+                        Grade Input Complete
+                        {% else %}
+                        Grade Input Missing
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Assessment</h4>
+                    {% if test_4_status %}
+                    <p>Your Test Result</p>
+                    <p>Score: {{test_results.3}}%</p>
+                    {% else %}
+                    <p>Have not yet taken the test.</p>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <h4>Recommendation Survey</h4>
+                    <span class="icon accuracy-{{survey_acc_3}}">
+                        {% if survey_acc_3 == '1' %}
+                        Not Accurate
+                        <ion-icon name="caret-down-outline"></ion-icon>
+                        {% elif survey_acc_3 == '2' %}
+                        Somewhat Accurate
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        {% elif survey_acc_3 == '3' %}
+                        Neutral
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% elif survey_acc_3 == '4' %}
+                        Accurate
+                        <ion-icon name="chevron-up-outline"></ion-icon>
+                        {% elif survey_acc_3 == '5' %}
+                        Very Accurate
+                        <ion-icon name="caret-up-outline"></ion-icon>
+                        {% else %}
+                        No Record
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% endif %}
+                    </span>
+
+                </div>
+                <div class="card">
+                    <h4>Recommendations</h4>
+                    <p>Top 1: {{top_1_recos.3}}</p>
+                    <p>Top 2: {{top_2_recos.3}}</p>
+                    <p>Top 3: {{top_3_recos.3}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>4th Year</h2>
+            <div class="history row">
+                <div class="card">
+                    <h4>Grade Input</h4>
+                    <span class="status-{{grade_2_status|yesno:'green,red'}}">
+                        {% if grade_2_status %}
+                        Grade Input Complete
+                        {% else %}
+                        Grade Input Missing
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Assessment</h4>
+                    {% if test_5_status %}
+                    <p>Your Test Result</p>
+                    <p>Score: {{test_results.4}}%</p>
+                    {% else %}
+                    <p>Have not yet taken the test.</p>
+                    {% endif %}
+                </div>
+                <div class="card">
+                    <h4>Recommendation Survey</h4>
+                    <span class="icon accuracy-{{survey_acc_4}}">
+                        {% if survey_acc_4 == '1' %}
+                        Not Accurate
+                        <ion-icon name="caret-down-outline"></ion-icon>
+                        {% elif survey_acc_4 == '2' %}
+                        Somewhat Accurate
+                        <ion-icon name="chevron-down-outline"></ion-icon>
+                        {% elif survey_acc_4 == '3' %}
+                        Neutral
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% elif survey_acc_4 == '4' %}
+                        Accurate
+                        <ion-icon name="chevron-up--outline"></ion-icon>
+                        {% elif survey_acc_4 == '5' %}
+                        Very Accurate
+                        <ion-icon name="caret-up-outline"></ion-icon>
+                        {% else %}
+                        No Record
+                        <ion-icon name="reorder-two-outline"></ion-icon>
+                        {% endif %}
+                    </span>
+                </div>
+                <div class="card">
+                    <h4>Recommendations</h4>
+                    <p>Top 1: {{top_1_recos.4}}</p>
+                    <p>Top 2: {{top_2_recos.4}}</p>
+                    <p>Top 3: {{top_3_recos.4}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section">
+            <h2>Graduate</h2>
+            <h3>Your Tracer Response</h3>
+            <div class="history row">
+
+                {% if tracer %}
+                <div class="card">
+                    <h4>Your Specialization</h4>
+                    <p>{{tracer.specialization}}</p>
+                </div>
+                <div class="card">
+                    <h4>Your Job Title</h4>
+                    <p>{{tracer.current_job_title}}</p>
+                </div>
+                <div class="card">
+                    <h4>Reason</h4>
+                    <p>{{tracer.recommendation_influence_reason}}</p>
+                </div>
+                {% else %}
+                <p>User is not a Graduate or haven't answer survey.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="#" id="save" class="btn btn-primary">Save your Report</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+<!-- <script>
+    document.getElementById('save').addEventListener('click', function() {
+        html2canvas(document.getElementById('report')).then(function(canvas) {
+            
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'User_Roadmap_Report.png';
+            link.click();
+        });
+    });
+    </script> -->
+<!-- <script>
+    document.getElementById('save').addEventListener('click', function () {
+        var reportDiv = document.getElementById('report');
+        html2canvas(reportDiv, {
+            // width: reportDiv.scrollWidth,
+            // height: reportDiv.scrollHeight
+            maxCanvasSize: 30000
+        }).then(function (canvas) {
+            var link = document.createElement('a');
+            link.href = canvas.toDataURL('image/png');
+            link.download = 'User_Roadmap_Report.png';
+            link.click();
+        });
+    });
+</script> -->
+<!-- <script>
+    document.getElementById('save').addEventListener('click', function () {
+        var reportDiv = document.getElementById('report');
+        html2canvas(reportDiv).then(function (canvas) {
+            var imgData = canvas.toDataURL('image/png');
+            var pdf = new jsPDF('p', 'mm', 'a4'); // A4 size page of PDF
+            var pageWidth = pdf.internal.pageSize.getWidth();
+            var pageHeight = pdf.internal.pageSize.getHeight();
+            var imageWidth = canvas.width;
+            var imageHeight = canvas.height;
+            var ratio = imageWidth / imageHeight >= pageWidth / pageHeight ? pageWidth / imageWidth : pageHeight / imageHeight;
+            var width = imageWidth * ratio;
+            var height = imageHeight * ratio;
+            pdf.addImage(imgData, 'PNG', 0, 0, width, height);
+            pdf.save('User_Roadmap_Report.pdf');
+        });
+    });
+</script> -->
+<script>
+    document.getElementById('save').addEventListener('click', function() {
+        var reportDiv = document.getElementById('report');
+        var opt = {
+            margin:       1,
+            filename:     'User_Roadmap_Report.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(reportDiv).save();
+    });
+    </script>
+{% endblock %}

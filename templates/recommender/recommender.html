@@ -43,8 +43,11 @@
 
 <div class="container">
     <div class="field-score">
+        <h1>Field Recommendation</h1>
+        <div class="field-plot">
+            {{ field_plot|safe }}
+        </div>
         <div class="field-result">
-            <h1>Field Recommendation</h1>
             <div class="result">
                 <h4>Explanation</h4>
                 <p>Top Pie Graph represents the overall similarity Score based from your Grades, Test Resutls and Other Records.
@@ -52,13 +55,13 @@
                     Your Top Field Recommendation is based from the top 3 highest percentage of the score.
                 </p>
             </div>
-        </div>
-        <div class="field-plot">
-            {{ field_plot|safe }}
-        </div>
+        </div> 
     </div>
 </div>
-<div class="container skill-score">
+<div class="container">
+    <a href="{% url 'recommender_survey' %}" class="btn btn-primary">Take Recommendation Survey</a>
+</div>
+<!-- <div class="container skill-score">
     <h3> Skill Score Representation</h3>
     <div class="skill-bar">
         
@@ -84,59 +87,9 @@
             The skill also shows what relevance score it has to the Field of Study.
         </p>
     </div>
-</div>
+</div> -->
 <!-- <div class="container">
     {{ radar_skills|safe }}
 </div> -->
-
-<br>
-<div>
-    <h3>Your Recommendation History</h3>
-    <div class="path">
-        <!-- from 1st year to last year -->
-        <div class="card path-1">
-            <div class="path-content">
-                <p>Freshmen</p>
-            </div>
-            <div class="arrow">
-
-            </div>
-        </div>
-        <div class="card path-2">
-            <div class="path-content">
-                <p>1st Year</p>
-            </div>
-            <div class="arrow">
-                
-            </div>
-        </div>
-        <div class="card path-3">
-            <div class="path-content">
-                <p>2nd Year</p>
-            </div>
-            <div class="arrow">
-                
-            </div>
-        </div>
-        <div class="card path-4">
-            <div class="path-content">
-                <p>3rd Year</p>
-            </div>
-            <div class="arrow">
-                
-            </div>
-        </div>
-        <div class="card path-5">
-            <div class="path-content">
-                <p>4th Year</p>
-            </div>
-            <div class="arrow">
-                
-            </div>
-        </div>
-        
-    </div>
-</div>
-
 
 {% endblock content %}

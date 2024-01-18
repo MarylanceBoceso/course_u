@@ -1,6 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    profile_picture = models.ImageField(upload_to='profile_pics/', null=True, blank=True)
+    isvarified = models.BooleanField(default=False)
+    def __str__(self):
+        return self.user.username
+
 class Skill(models.Model):
     skill = models.CharField(max_length=100, unique=True)
 
@@ -48,7 +56,7 @@ class LearningMaterial(models.Model):
     level = models.CharField(max_length=100)
     rating = models.FloatField(default=0)
     url = models.CharField(max_length=1000)
-    description = models.CharField(max_length=3000)
+    description = models.CharField(max_length=10000)
     skills = models.CharField(max_length=1000)
     field = models.ForeignKey(Field, on_delete=models.CASCADE)
 

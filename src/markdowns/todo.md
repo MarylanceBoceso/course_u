@@ -1,5 +1,91 @@
 # TODO
 
+# Highest Priority
+
+- [ ]: User Roadmap Page and Report
+- [ ]: 
+
+- [ ]: shift your info year level
+
+- [ ]: recommender survey remove questions 6-7
+- [ ]: recommender survey question 3&!5 will identify if reco is good or not
+- [ ]: on reco_survey add questions does your top1/2/3 reco 
+    - database should contain which recommendation is top1/2/3
+    - database based from survey would define if  reco is good or not
+    - choices are: not influenced, influenced, very influenced
+- [ ]: user_recommendation score should record all scores, which means that this should have its own model, (fields: user_recommendation_id, field_id, field_score)
+- [ ]: 
+
+
+
+Revision Matrix
+- [ ]: on assessment, create new model test_settings,
+    - number of questions per field
+    - instructions
+    - time limit
+- [ ]: fields are labeled if its for CS or IT or both or none
+
+- [X]: Home page layout design - rework
+- [ ]: Where to place roadmap view
+
+- [X]: Recommender Result Graphs (Stacked bar grap)
+- [X]: Report Update
+    - [ ]: By year, scatter plot of recommendation score, with regression line
+    - [ ]: 
+- [X]: user should only have one chance on adding their course and year term level
+    - [ ]: additional, student course and year should also appear in profile page
+    - [ ]: roadmap view should also be seen here. -pending
+
+- [X]: end year term (admin only)
+    - [X]: Add a button on the dashboard student page, that would end the year term
+        - this would advance all students year if their year doesnt exceed course
+    - [X]: only admin can access
+
+- [X] : add student profile status (enroleed [default], graduated, dropped out)
+    - [X]: on dashboard, student page add button on updating status (admin only)
+
+- [ ]: on course model/database, add abbrivation
+
+- [X]: on "your information" if student has existing record, direct to student info instead
+- [X]: add student information and student grade view
+- [X]: on start test, check if student is valid to take test
+
+### Database
+
+
+
+- [ ]: add record for user job application
+- [ ]: Selected Specialization
+- [ ]: survey update
+    - question: befure using the system, are you aware of the different specializations in the field of IT? (yes/no/a few)
+    - if yes, in your choosen specialization, how much do you know about it? (1-5)
+    - after using the system, did it help you in choosing your specialization? (1-5)
+    - what specialization did you choose? 
+    - how much did the system help you in knowing your specialization? (1-5)
+- [ ] find what aspects can be used to verify and evaluate the system for those who doesn't even finish the recommendation system
+    - [ ]: create a survey for those who doesn't finish the recommendation system
+        - possible questions:
+
+
+### Others
+- [ ]: Redesign navbar, instead of using dropdown, use breadcrumbs, remove home, use logo instead. in this way we could get more horizontal space or make the navbar shorter
+- [ ]: send verfication email - @krtsfpmd
+- [ ]: table heading size to smaller
+- [ ]: Roadmap View (recommendation record view)
+    - in progress
+    - waiting for further desing revisions by -@dec
+
+- [ ]: recommendation dashboard
+    - shows different statistic visualization view of fields
+    - shows reason of how it is recommended, where does it came from
+    - etc, graphs, charts, etc
+
+# Design
+- [ ]: home design, make it better, apply sectioning
+- [ ]: base_user.html when user is not logged, sign-in icon button is bugged
+- [ ]: specialization page, add card design
+- [ ]: path.html, fix design
+= [ ]: change other buttons to breadcrumbs (on student_info, student_grade, etc)
 
 
 ## High Priority

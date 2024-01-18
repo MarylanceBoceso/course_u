@@ -22,12 +22,16 @@ SECRET_KEY = 'django-insecure-h_s31sn!wtc)#5sf1^c%*nvy)dp3t*5ja)n+g6*(0nw-wge(s=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
                 #[]
-ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
-
+# ALLOWED_HOSTS = ['.vercel.app', '.now.sh', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ["*"]
 
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
+    #'django_light',
+    #'admin_tools_stats',
+    #'django_nvd3',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -36,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'management_commands',
+
+    #apps
     'apps.acad',
     'apps.assessment',
     'apps.recommender',
@@ -50,6 +56,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -71,6 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'apps.website.context_processors.profile_picture',
                 #'website.context_processors.context_question_sets',
             ],
         },
@@ -80,7 +88,7 @@ TEMPLATES = [
 INTERNAL_IPS= [
     '127.0.0.1',
 ]
-
+CSRF_TRUSTED_ORIGINS = ["https://www.courseu.site"]
 WSGI_APPLICATION = 'course_u.wsgi.application'
 
 
@@ -89,14 +97,14 @@ WSGI_APPLICATION = 'course_u.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'courseu_db',
-        'USER': 'root',
-        'PASSWORD': 'sql2023',#'022002',sawadeeKA456', #'022002'
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "railway",
+        'USER': "postgres",
+        'PASSWORD': "A3Bf-Bc*3aAa6fb621*A6E14-dCEB4f1",
+        'HOST': "viaduct.proxy.rlwy.net",
+        'PORT': "29888",
     }
-} 
+}
 
 
 # Password validation
@@ -283,3 +291,69 @@ LOGGING = {
 
 # logging.config.dictConfig(LOGGING)
 
+JAZZMIN_SETTINGS = {
+    #for admin page
+    "show_ui_builder": True,
+    'site_header': "Course-U",
+    'site_brand': "Course-U",
+    'site_logo': "images/logo.png",
+    "site_icon": "images/logo.png",
+    'copyright': "courseu-production-d2b3.up.railway.app",
+    "search_model": ["auth.User", "auth.Group"],
+    "navigation_expanded": False,
+    "changeform_format": "collapsible",
+    #"default_icon_parents": "fas fa-chevron-circle-right",
+    #"default_icon_children": "fas fa-circle",
+    "icons": {
+    "auth": "fas fa-users-cog",
+    "auth.user": "fas fa-user",
+    "users.User": "fas fa-user",
+    "auth.Group": "fas fa-users",
+    "admin.LogEntry": "fas fa-file",
+    },
+
+    #for admin login
+    'login_logo': "images/boy.png",
+    "welcome_sign": "Welcome to the Course-U Administrator",
+}
+
+JAZZMIN_UI_TWEAKS = {
+    "navbar_small_text": False,
+    "footer_small_text": False,
+    "body_small_text": False,
+    "brand_small_text": False,
+    "brand_colour": "navbar-orange",
+    "accent": "accent-orange",
+    "navbar": "navbar-orange navbar-light",
+    "no_navbar_border": True,
+    "navbar_fixed": False,
+    "layout_boxed": False,
+    "footer_fixed": False,
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-light-orange",
+    "sidebar_nav_small_text": False,
+    "sidebar_disable_expand": False,
+    "sidebar_nav_child_indent": True,
+    "sidebar_nav_compact_style": False,
+    "sidebar_nav_legacy_style": False,
+    "sidebar_nav_flat_style": False,
+    "theme": "minty",
+    "dark_mode_theme": None,
+    "button_classes": {
+        "primary": "btn-primary",
+        "secondary": "btn-secondary",
+        "info": "btn-info",
+        "warning": "btn-warning",
+        "danger": "btn-danger",
+        "success": "btn-success"
+    },
+    "actions_sticky_top": True
+}
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'marylancegboceso@gmail.com'
+EMAIL_HOST_PASSWORD = 'M*H6y,$5!QDcJrQ'
+DEFAULT_FROM_EMAIL = 'admin@courseu.site'

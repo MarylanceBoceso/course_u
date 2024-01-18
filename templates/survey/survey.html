@@ -1,0 +1,50 @@
+{% extends 'base_user.html' %}
+
+{% block title %}Survey{% endblock %}
+
+{% load static %}
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/survey.css' %}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+{% endblock head_extra %}
+
+{% block content %}
+
+
+<div class="survey mt-3">
+  <h2>Alignment of Academic Specialization with Professional Career in IT/CS</h2>
+
+  <form method="post" action="{% url 'survey' %}">
+    {% csrf_token %}
+    <!-- {{ form.as_p }} -->
+    <div class="forms-container">
+      {% for field in form %}
+      <div class="form-field mt-2">
+        <div class="label-section">
+          {{ field.label_tag }}
+        </div>
+        <div class="input-section">
+          {{ field }}
+        </div>
+
+      </div>
+      {% endfor %}
+    </div>
+
+    <button type="submit" class="btn btn-submit btn-primary mt-4">Submit</button>
+  </form>
+</div>
+
+<div>
+  
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('input[type="checkbox"]').each(function() {
+        var id = $(this).attr('id');
+        $(this).after('<label for="' + id + '"></label>');
+    });
+});
+</script>
+{% endblock %}

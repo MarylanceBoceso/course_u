@@ -1,0 +1,40 @@
+{% extends 'base_user.html' %}
+{% block title %}Student Information{% endblock %}
+
+{% load static %}
+{% block head_extra %}
+<link rel="stylesheet" href="{% static 'css/course.css' %}">
+{% endblock head_extra %}
+
+
+
+{% block content %}
+
+<h2>Student Information</h2>
+
+<div class="course-section">
+    <div class="character-section">
+    </div>
+    <div class="selection-section">
+        <h2 id="course">{{course.course_name}}</h2>
+        <h4 id="year-level">{{year_level}} Subjects</h4>
+        <div class="subject-grades">
+            {% if have_grades %}
+            {% for subject in subjects %}
+            <div class="subject">
+                <h3>{{subject.subject_name }}</h3> 
+                <p>{{subject.grade}}</p>
+            </div>
+            {% endfor %}
+            {% else %}
+            <p>No grades yet.</p>
+            <a href="{% url 'subjects_grade_input_old' course_id=course.id year_level=year %}" class="button">Go to Grade Input</a>
+            {% endif %}
+        </div>
+    </div>  
+</div>
+<div class="button-container">
+    <a href="{% url 'student_information' %}" class="" id="go-back">Go Back</a>
+</div>
+
+{% endblock content %}
